@@ -12,6 +12,8 @@ import java.util.ArrayList;
  *  - Checking the linear dependence of a set of column vectors represented by a matrix
  *  - Changing basis
  *  - Linear transformations (I don't know how yet though)
+ *  - Null spaces
+ *  - Finding the inverse of a matrix
  *  - Allow for symbolic entries in addition to numeric ones (does the TI-nspire do this? What about Octave? SageMath?)
  *  - A lot more; keep reading the textbook. Might need to cover more material than the course does.
  *
@@ -143,18 +145,19 @@ public class Matrix {
     }
 
     // unsure whether this is needed
-    public boolean equals(){
+    public boolean equals(Matrix other){
         return false;
     }
 
-//    public Matrix multiply(Matrix other) {
-//        Matrix result = new Matrix();
-//        return result;
-//    }
+    public Matrix multiply(Matrix other) {
+        // operation should be in the order of this * other, not other * this.
+        return null;
+    }
 
     public Matrix[] getColumnVectors(){
         return null;
     }
+
 
     public Matrix ref(){
         for (int i = 0; i < columns; i++) {
@@ -180,9 +183,39 @@ public class Matrix {
         return null;
     }
 
+    // The following three private functions are for internal gaussian multiplication.
+    // They should all be modifying the 'this' object, AKA the instance of Matrix that called the function.
+    // The instance that called the function should be a 'result' object used internally for other functions.
+
+    private Matrix scaleRow (int row, double factor) {
+        return null;
+    }
+
+    private Matrix interchangeRow (int row1, int row2) {
+        return null;
+    }
+
+    private Matrix replaceRow (int preservedRow, int replacedRow) {
+        return null;
+    }
+
     public Matrix inverse() {
         return null;
     }
 
+    /**
+     *
+     * @return
+     */
+    public boolean isInvertible() {
+        // One way of finding out whether a matrix is invertible is to find its determinant.
+        // If the determinant is not zero, the matrix is invertible.
+        return this.findDeterminant() != 0;
+    }
 
+    // TODO: implement finding the determinant of the matrix.
+    public double findDeterminant() {
+        // I can probably use ref() here to find the triangular form of the matrix.
+        return 0;
+    }
 }
