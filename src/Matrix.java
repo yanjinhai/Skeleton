@@ -15,6 +15,7 @@ import java.util.ArrayList;
  *  - Finding the inverse of a matrix
  *  - Allow for symbolic entries in addition to numeric ones (does the TI-nspire do this? What about Octave? SageMath?)
  *  - A lot more; keep reading the textbook. Might need to cover more material than the course does.
+ *  - Consider how the UI should look. Should I use a GUI, TUI, CLI, or just read and write to a text file?
  *
  * @author jinhai
  */
@@ -148,18 +149,23 @@ public class Matrix {
         return false;
     }
 
-    // operation should be in the order of this * other, not other * this.
-    public Matrix multiply(Matrix other) {
-        if (columns != other.rows) {
+    /**
+     * Matrix multiplication operations should be in the order of this * rightMatrix, not rightMatrix * this.
+     *
+     * @param rightMatrix
+     * @return
+     */
+    public Matrix multiply(Matrix rightMatrix) {
+        if (columns != rightMatrix.rows) {
             throw new java.lang.RuntimeException("Invalid matrix multiplication: the first matrix must have as many " +
                     "columns as the second matrix has rows.");
         }
-        double[][] resultEntries = new double[rows][other.columns];
-        for (int i = 0; i < other.columns; i++) { // for each column in other matrix (and resulting matrix)
+        double[][] resultEntries = new double[rows][rightMatrix.columns];
+        for (int i = 0; i < rightMatrix.columns; i++) { // for each column in other matrix (and resulting matrix)
             for (int j = 0; j < rows; j++) { // for each row in this matrix (and resulting matrix)
                 // for each pair of entries from both matrices multiply and add up to form an entry in the resulting matrix
                 for (int k = 0; k < columns; k++) {
-                    resultEntries[j][i] += other.entries[k][i] * entries[j][k];
+                    resultEntries[j][i] += entries[j][k] * rightMatrix.entries[k][i];
                 }
             }
         }
@@ -195,22 +201,56 @@ public class Matrix {
         return null;
     }
 
-    // The following three private functions are for internal gaussian multiplication.
-    // They should all be modifying the 'this' object, AKA the instance of Matrix that called the function.
-    // The instance that called the function should be a 'result' object used internally for other functions.
+    // The following three private functions are for internal Gaussian multiplication.
     // Not sure whether I should implement column operations at all, nor whether they should be public or private.
     // In fact, should these row operation functions be public after all? I might come back to this later.
 
+    /**
+     * This method is one of the three elementary row operations used in Gaussian elimination.
+     *
+     * @param row
+     * @param factor
+     * @return
+     */
     private Matrix scaleRow (int row, double factor) {
-        return null;
+        double[][] newEntries = entries.clone();
+        for (int i = 0; i < newEntries[row].length; i++) {
+            newEntries[row][i] *= factor;
+        }
+        return new Matrix(newEntries);
     }
 
+    /**
+     * This method is one of the three elementary row operations used in Gaussian elimination.
+     *
+     * @param row1
+     * @param row2
+     * @return
+     */
     private Matrix interchangeRow (int row1, int row2) {
-        return null;
+        double[][] newEntries = entries.clone();
+        newEntries[row2] = entries[row1];
+        newEntries[row1] = entries[row2];
+        return new Matrix(newEntries);
     }
 
-    private Matrix replaceRow (int preservedRow, int replacedRow) {
-        return null;
+    /**
+     * This method multiplies preservedRow by factor, then adds the product to replacedRow.
+     * The resulting matrix is returned as a separate new object.
+     *
+     * This method is one of the three elementary row operations used in Gaussian elimination.
+     *
+     * @param preservedRow
+     * @param factor
+     * @param replacedRow
+     * @return
+     */
+    private Matrix replaceRow (int preservedRow, double factor, int replacedRow) {//TODO: test this method; make sure it works
+        double[][] newEntries = entries.clone();
+        for (int i = 0; i < newEntries[preservedRow].length; i++) {
+            newEntries[replacedRow][i] += newEntries[preservedRow][i] * factor;
+        }
+        return new Matrix(newEntries);
     }
 
     public Matrix inverse() {
