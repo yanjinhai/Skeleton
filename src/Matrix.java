@@ -5,7 +5,8 @@ import java.util.ArrayList;
  *
  * TODO features to implement (in no particular order):
  *  - ref & rref via Gaussian elimination
- *  - the ref & rref functions should not only output the final matrix, but also the steps taken to achieve it. This will be useful to display each step on screen, and could be used by the inverse function later.
+ *  - the ref & rref functions should not only output the final matrix, but also the steps taken to achieve it. This will
+ *  be useful to display each step on screen, and could be used by the inverse function later.
  *  - Solving augmented matrices (in parametric form if there are any free variables)
  *  - Finding the span of a set of column vectors represented by a matrix
  *  - Checking the linear dependence of a set of column vectors represented by a matrix
@@ -19,7 +20,9 @@ import java.util.ArrayList;
  *  - Finding the inverse of a matrix
  *  - Finding the transpose of a matrix
  *  - rearrange to upper/lower triangular
- *  - eigenvalues
+ *  - eigenvalues (via diagonalization, not determinants, because using determinants to find eigenvalues requires algebraic expressions as entries,
+ *  which is outside the scope of this project)
+ *  - eigenvectors
  *  - Finding whether a matrix is symmetric
  *  - the elementary row operations as matrix transformations (as an alternative to just visual changes) for showing all the steps this way
  *  - the determinants of the matrices in the matrix transformations representing the elementary row operations
