@@ -10,9 +10,19 @@ import java.util.ArrayList;
  *  - Finding the span of a set of column vectors represented by a matrix
  *  - Checking the linear dependence of a set of column vectors represented by a matrix
  *  - Changing basis
- *  - Linear transformations (I don't know how yet though)
+ *  - Linear transformations
  *  - Null spaces
+ *  - Column spaces (they're just the span of the vector set represented by a matrix, why did people invent a new term?)
+ *  - is one-to-one & is onto (is invertible plays a role in both)
+ *  - range, domain, and codomain fo a linear transformation
+ *  - rank (literally the number of pivot positions the ref of the matrix contains)
  *  - Finding the inverse of a matrix
+ *  - Finding the transpose of a matrix
+ *  - rearrange to upper/lower triangular
+ *  - eigenvalues
+ *  - Finding whether a matrix is symmetric
+ *  - the elementary row operations as matrix transformations (as an alternative to just visual changes) for showing all the steps this way
+ *  - the determinants of the matrices in the matrix transformations representing the elementary row operations
  *  - Allow for symbolic entries in addition to numeric ones (does the TI-nspire do this? What about Octave? SageMath?)
  *  - A lot more; keep reading the textbook. Might need to cover more material than the course does.
  *  - Consider how the UI should look. Should I use a GUI, TUI, CLI, or just read and write to a text file?
@@ -267,12 +277,45 @@ public class Matrix {
         return this.findDeterminant() != 0;
     }
 
-    // TODO: implement finding the determinant of the matrix.
+    // Cofactor expansion: a simple recursive method of finding the determinant of a square matrix of any size without
+    // using gaussian elimination.
     public double findDeterminant() {
-        // I can probably use ref() here to find the triangular form of the matrix.
-        // Reminder: determinants are only defined for square matrices.
-        // Would it ever be necessary to convert from a matrix transformation equation to a determinant equation by
-        // taking the determinant of both sides? If so, would here be the best place to implement it?
-        return 0;
+        // Determinants are only defined for square matrices.
+        if (rows != columns) {
+            throw new java.lang.RuntimeException("The determinant of a matrix without the same number of rows and columns is undefined.");
+        }
+        return findDeterminant(this);
+    }
+
+    // The actual recursive part.
+    private double findDeterminant(Matrix matrix) {
+        if (matrix.rows == 2) {
+            double a = matrix.entries[0][0];
+            double b = matrix.entries[0][1];
+            double c = matrix.entries[1][0];
+            double d = matrix.entries[1][1];
+            return a*d-b*c;
+        }
+        double result = 0;
+        for (int i = 0; i < matrix.columns; i++) { // cofactor expansion, but always using the top row for simplicity
+            // generate new matrix
+            double[][] nextEntries = new double[matrix.rows-1][matrix.columns-1];
+            int jj = 0;
+            for (int j = 1; j < matrix.rows; j++) {  // for each row (except the top row, since it's always the selected row for cofactor expansion)
+                int kk = 0;
+                for (int k = 0; k < matrix.columns; k++) { // for each entry in row j
+                    if (k != i) { // ignore the entry if it's in the same column as the entry currently selected for cofactor expansion
+                        nextEntries[jj][kk] = matrix.entries[j][k];
+                        kk++;
+                    }
+                }
+                jj++;
+            }
+            Matrix nextMatrix = new Matrix(nextEntries);
+            double nextDeterminant = findDeterminant(nextMatrix);
+            double negativityFactor = Math.pow(-1, i + 2); // +1 for the 1st row, +1 for the first column
+            result += matrix.entries[0][i] * negativityFactor * nextDeterminant;
+        }
+        return result;
     }
 }
