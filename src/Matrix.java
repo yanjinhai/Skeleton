@@ -27,7 +27,11 @@ import java.util.ArrayList;
  *  - the elementary row operations as matrix transformations (as an alternative to just visual changes) for showing all the steps this way
  *  - the determinants of the matrices in the matrix transformations representing the elementary row operations
  *  - Allow for symbolic entries in addition to numeric ones (does the TI-nspire do this? What about Octave? SageMath?)
+ *  - Markov Chains
+ *  - Stochastic matrices, probability vectors & steady-state vectors
+ *  - Discrete dynamical systems (taking an initial vector, transition matrix, and number of iterations as constructor parameters; with a function to return the resulting vector after applying the transition matrix to the initial vector n times).
  *  - A lot more; keep reading the textbook. Might need to cover more material than the course does.
+ *  - Textbook: http://merganser.math.gvsu.edu/david/linear.algebra/ula/ula/frontmatter.html
  *  - Consider how the UI should look. Should I use a GUI, TUI, CLI, or just read and write to a text file?
  *
  * @author jinhai
