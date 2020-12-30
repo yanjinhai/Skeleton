@@ -22,8 +22,9 @@ import java.util.ArrayList;
  *  - rearrange to upper/lower triangular
  *  - eigenvalues (via diagonalization, not determinants, because using determinants to find eigenvalues requires algebraic expressions as entries,
  *  which is outside the scope of this project)
- *  - eigenvectors
+ *  - eigeznvectors
  *  - Finding whether a matrix is symmetric
+ *  - Finding whether a matrix is singular (A matrix is singular if it is a square matrix but isn't invertible)
  *  - the elementary row operations as matrix transformations (as an alternative to just visual changes) for showing all the steps this way
  *  - the determinants of the matrices in the matrix transformations representing the elementary row operations
  *  - Allow for symbolic entries in addition to numeric ones (does the TI-nspire do this? What about Octave? SageMath?)
